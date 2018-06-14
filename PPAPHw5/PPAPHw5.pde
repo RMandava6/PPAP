@@ -1,16 +1,30 @@
 import processing.video.*;
+import java.util.*;
 
 int numPixelsWide, numPixelsHigh;
 int blockSize = 5;
 Movie mov;
 color movColors[];
 color pixColors[];
+ private ImageHandler penImageHandler;
+ private ImageHandler appleImageHandler;
+ private ImageHandler pineappleImageHandler;
 
 void setup() {
   size(800, 400);
   noStroke();
-  mov = new Movie(this, "/Users/ramya/Documents/Processing/PPAPHw5/Data/PPAP.mp4");
+  
+  String basePath = "/Users/raminfarhanian/Documents/Processing/Visualization/unit 6/PPAP/PPAPHw5/Data/";
+  String videoName = "PPAP.mp4";
+  ImageLoader imageLoader = new ImageLoader(basePath, "pen.jpg", "pineapple.jpg", "apple.jpg");
+   
+  mov = new Movie(this, basePath + videoName);
   mov.loop();
+  
+  penImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(15,19,22,26, 29, 30, 33, 34, 41)), imageLoader.loadPen(), mov, new Location(0,0));
+  appleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(17,23)), imageLoader.loadApple(), mov, new Location(width-(width/8),0));
+  pineappleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(24,26)), imageLoader.loadPineapple(), mov, new Location(0,height- (height/8)));
+
   numPixelsWide = width / blockSize;
   numPixelsHigh = height / blockSize;
   println(numPixelsWide);
@@ -21,6 +35,7 @@ void setup() {
 void draw() {
   if (mov.available() == true) {
     mov.read();
+    
     mov.loadPixels();
     int count = 0;
     for (int j = 0; j < numPixelsHigh; j++) {
@@ -30,19 +45,15 @@ void draw() {
       }//end of inner for
     }//end of outer for
     
-    ////count = 0;
-    //for (int x = 0; x < width; x++) {
-    //  for (int y = 0; y < height; y++) {
-    //    int index0 = x + (y)*width;
-    //    pixColors[index0] = mov.pixels[index0];
-    //    //count++;
-    //  }//end of inner for
-    //}//end of outer for
+
     
   }// end of if
   //background(255);
   //noTint();
+  
   image(mov, 0, 0, width, height);
+  
+  
   if(key =='i' || key =='I'){
     filter(INVERT);
     image(mov, 0, 0, width/2, height/2);
@@ -51,8 +62,11 @@ void draw() {
     filter(POSTERIZE, 4);
     image(mov, width/2, height/2, width/2, height/2);
   }
+  
+  
+  
   //float md = mov.duration();
-  float mt = mov.time();
+  Float mt = mov.time();
   if (mt<10) {
     background(255);
     for (int j = 0; j < numPixelsHigh; j++) {
@@ -67,6 +81,11 @@ void draw() {
     tint(0, 153, 204);
     //image(mov, 0, 0, width, height);
   }
+  surface.setTitle(String.valueOf(mt.intValue()));
+
+  penImageHandler.draw();
+  appleImageHandler.draw();
+  pineappleImageHandler.draw();
   
 }//end of draw
 
