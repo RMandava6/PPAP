@@ -1,11 +1,11 @@
 import processing.video.*;
 import java.util.*;
 
-int numPixelsWide, numPixelsHigh;
+int nPWide, nPHeight;
 int blockSize = 5;
 Movie mov;
-color movColors[];
-color pixColors[];
+color mColors[];
+//color pixColors[];
  private ImageHandler penImageHandler;
  private ImageHandler appleImageHandler;
  private ImageHandler pineappleImageHandler;
@@ -14,7 +14,7 @@ void setup() {
   size(800, 400);
   noStroke();
   
-  String basePath = "/Users/raminfarhanian/Documents/Processing/Visualization/unit 6/PPAP/PPAPHw5/Data/";
+  String basePath = "/Users/ramya/Documents/Processing/PPAPHw5/Data/";
   String videoName = "PPAP.mp4";
   ImageLoader imageLoader = new ImageLoader(basePath, "pen.jpg", "pineapple.jpg", "apple.jpg");
    
@@ -25,10 +25,10 @@ void setup() {
   appleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(16, 19,     28,     34, 40, 41, 80, 84, 87, 92, 106)), imageLoader.loadApple(), mov, new Location(width-(width/8),0));
   pineappleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(23, 25, 30,     34, 40, 41, 82, 84, 87, 92, 106)), imageLoader.loadPineapple(), mov, new Location(0,height- (height/8)));
 
-  numPixelsWide = width / blockSize;
-  numPixelsHigh = height / blockSize;
-  println(numPixelsWide);
-  movColors = new color[numPixelsWide * numPixelsHigh];
+  nPWide = width / blockSize;
+  nPHeight = height / blockSize;
+  println(nPWide);
+  mColors = new color[nPWide * nPHeight];
 }
 
 // Display values from movie
@@ -38,9 +38,9 @@ void draw() {
     
     mov.loadPixels();
     int count = 0;
-    for (int j = 0; j < numPixelsHigh; j++) {
-      for (int i = 0; i < numPixelsWide; i++) {
-        movColors[count] = mov.get(i*blockSize, j*blockSize);
+    for (int j = 0; j < nPHeight; j++) {
+      for (int i = 0; i < nPWide; i++) {
+        mColors[count] = mov.get(i*blockSize, j*blockSize);
         count++;
       }//end of inner for
     }//end of outer for
@@ -69,9 +69,9 @@ void draw() {
   Float mt = mov.time();
   if (mt<10) {
     background(255);
-    for (int j = 0; j < numPixelsHigh; j++) {
-      for (int i = 0; i < numPixelsWide; i++) {
-        fill(movColors[j*numPixelsWide + i]);
+    for (int j = 0; j < nPHeight; j++) {
+      for (int i = 0; i < nPWide; i++) {
+        fill(mColors[j*nPWide + i]);
         rect(i*blockSize, j*blockSize, blockSize, blockSize);
       }//end of inner for
     }//end of outer for
@@ -108,13 +108,6 @@ void keyPressed() {
       //image(mov, width/2, height/2, width, height);
     }
     
-    //image(mov, 0, 0, width, height);
-    //if(key =='i' || key =='I'){
-    //  filter(INVERT);
-    //}//end of filter if
   }//end of KeyPressed if
-  
-  //else{
-  //  noTint();
-  //}
-}//end of keyPressed
+
+}//end of keyPressed function
