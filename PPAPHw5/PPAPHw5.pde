@@ -20,10 +20,10 @@ void setup() {
    
   mov = new Movie(this, basePath + videoName);
   mov.loop();
-  
-  penImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(15,19,22,26, 29, 30, 33, 34, 41)), imageLoader.loadPen(), mov, new Location(0,0));
-  appleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(17,23)), imageLoader.loadApple(), mov, new Location(width-(width/8),0));
-  pineappleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(24,26)), imageLoader.loadPineapple(), mov, new Location(0,height- (height/8)));
+
+  penImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(15, 19, 22, 25, 28, 30, 34, 40, 41, 72, 74, 78, 86, 92, 106)), imageLoader.loadPen(), mov, new Location(0,0));
+  appleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(16, 19,     28,     34, 40, 41, 80, 84, 87, 92, 106)), imageLoader.loadApple(), mov, new Location(width-(width/8),0));
+  pineappleImageHandler = new ImageHandler(new HashSet<Integer>(Arrays.asList(23, 25, 30,     34, 40, 41, 82, 84, 87, 92, 106)), imageLoader.loadPineapple(), mov, new Location(0,height- (height/8)));
 
   numPixelsWide = width / blockSize;
   numPixelsHigh = height / blockSize;
@@ -81,7 +81,7 @@ void draw() {
     tint(0, 153, 204);
     //image(mov, 0, 0, width, height);
   }
-  surface.setTitle(String.valueOf(mt.intValue()));
+  //surface.setTitle(String.valueOf(mt.intValue()));
 
   penImageHandler.draw();
   appleImageHandler.draw();
